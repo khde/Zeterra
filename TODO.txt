@@ -1,0 +1,13 @@
+Statemanager
+    -If **states is full make realloc
+    -Make states_current smarter not always -1
+        -> Maybe struct State *state for current state?
+
+engine_config.h
+    -Add Window width and height to config. Should it be int in struct or a macro?
+
+make event_manager who deals with all that
+states.h einführen damit alle States global sind beim zufügen oder auf heap???
+
+Add ressource_manager and make him load all stuff in ressources?? -> Google how to implement
+

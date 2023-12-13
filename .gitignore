@@ -1,0 +1,4 @@
+build/
+zeterra
+*.o
+*.a
