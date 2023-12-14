@@ -19,6 +19,8 @@ int game_init(void) {
     player.r.x = player.x;  // Bruh
     player.r.y = player.y;
 
+    g.world = *world_create();
+
     return 0;
 }
 
@@ -46,6 +48,7 @@ int game_render(void){
     SDL_SetRenderDrawColor(engine.rendermanager.renderer, 35, 06, 35, 255);
     SDL_RenderFillRect(engine.rendermanager.renderer, &player.r);
 
+    world_render_world(&g.world);
 
     SDL_RenderPresent(engine.rendermanager.renderer);
 

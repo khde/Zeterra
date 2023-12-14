@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
     (void) argv;
 
     struct State mainmenu;
-    create_state(
+    statemanager_create_state(
         &mainmenu,
         mainmenu_init,
         mainmenu_destroy,

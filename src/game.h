@@ -4,11 +4,12 @@
 #include <SDL2/SDL.h>
 
 #include "engine/engine.h"
+#include "world.h"
 
 extern struct State game;
 
 struct Game {
-
+    struct World world;
 };
 
 extern int game_init(void);

@@ -16,7 +16,7 @@ int mainmenu_destroy(void) {
 
 int mainmenu_event(SDL_Event *event) {
     if (event->key.keysym.sym == SDLK_SPACE) {
-        create_state(
+        statemanager_create_state(
             &game,
             game_init,
             game_destroy,

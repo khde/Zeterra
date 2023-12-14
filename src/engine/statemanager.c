@@ -112,7 +112,7 @@ int statemanager_render(struct StateManager *sm) {
     return 0;
 }
 
-struct State *create_state(
+struct State *statemanager_create_state(
     struct State *state,
     int (*init)(void),
     int (*destory)(void),

@@ -29,7 +29,7 @@ extern int statemanager_event(struct StateManager *sm, SDL_Event *event);
 extern int statemanager_update(struct StateManager *sm);
 extern int statemanager_render(struct StateManager *sm);
 
-extern struct State *create_state(
+extern struct State *statemanager_create_state(
     struct State *state,
     int (*init)(void),
     int (*destory)(void),
