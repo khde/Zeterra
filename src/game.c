@@ -31,7 +31,7 @@ int game_destroy(void){
 
 int game_event(SDL_Event *event){
     if (event->key.keysym.sym == SDLK_ESCAPE) {
-        statemanager_pop(&engine.statemanager);
+        statemanager_pop();
     }
     return 0;
 }

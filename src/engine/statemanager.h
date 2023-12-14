@@ -18,16 +18,16 @@ struct StateManager {
     unsigned int states_current;
 };
 
-extern int statemanager_init(struct StateManager *sm);
-extern int statemanager_close(struct StateManager *sm);
+extern int statemanager_init(void);
+extern int statemanager_close(void);
 
-extern int statemanager_change(struct StateManager *sm, struct State *st);
-extern int statemanager_push(struct StateManager *sm, struct State *st);
-extern int statemanager_pop(struct StateManager *sm);
+extern int statemanager_change(struct State *st);
+extern int statemanager_push(struct State *st);
+extern int statemanager_pop(void);
 
-extern int statemanager_event(struct StateManager *sm, SDL_Event *event);
-extern int statemanager_update(struct StateManager *sm);
-extern int statemanager_render(struct StateManager *sm);
+extern int statemanager_event(SDL_Event *event);
+extern int statemanager_update(void);
+extern int statemanager_render(void);
 
 extern struct State *statemanager_create_state(
     struct State *state,

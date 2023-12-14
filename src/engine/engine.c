@@ -16,8 +16,8 @@ int engine_init(void) {
         return 1;
     }
 
-    statemanager_init(&engine.statemanager);
-    rendermanager_init(&engine.rendermanager);
+    statemanager_init();
+    rendermanager_init();
 
     engine.active = 1;
 
@@ -31,19 +31,19 @@ int engine_run(void) {
             if (event.type == SDL_QUIT) {
                 engine.active = 0;
             }
-            statemanager_event(&engine.statemanager, &event);
+            statemanager_event(&event);
         }
 
-        statemanager_update(&engine.statemanager);
-        statemanager_render(&engine.statemanager);
+        statemanager_update();
+        statemanager_render();
     }
 
     return 0;
 }
 
 int engine_close(void) {
-    rendermanager_close(&engine.rendermanager);
-    statemanager_close(&engine.statemanager);
+    rendermanager_close();
+    statemanager_close();
     SDL_Quit();
 
     return 0;

@@ -2,16 +2,17 @@
 #include <stdio.h>
 
 #include "statemanager.h"
+#include "engine.h"
 #include "engine_config.h"
 
-int statemanager_init(struct StateManager *sm) {
+int statemanager_init(void) {
     printf("Init StateManager\n");
 
-    sm->states_max = ENGINE_STATEMANAGER_STATES;
-    sm->states_current = 0;
-    sm->states = calloc(sm->states_max, sizeof(struct State *));
+    engine.statemanager.states_max = ENGINE_STATEMANAGER_STATES;
+    engine.statemanager.states_current = 0;
+    engine.statemanager.states = calloc(engine.statemanager.states_max, sizeof(struct State *));
 
-    if (sm->states == NULL) {
+    if (engine.statemanager.states == NULL) {
         printf("Error: No memory for states\n");
         return 1;
     }
@@ -19,94 +20,94 @@ int statemanager_init(struct StateManager *sm) {
     return 0;
 }
 
-int statemanager_close(struct StateManager *sm) {
+int statemanager_close(void) {
     printf("StateManager: Closing\n");
 
-    while(sm->states_current > 0) {
-        statemanager_pop(sm);
+    while(engine.statemanager.states_current > 0) {
+        statemanager_pop();
     }
 
-    free(sm->states);
+    free(engine.statemanager.states);
 
     return 0;
 }
 
-int statemanager_change(struct StateManager *sm, struct State *st) {
-    statemanager_pop(sm);
-    statemanager_push(sm, st);
+int statemanager_change(struct State *st) {
+    statemanager_pop();
+    statemanager_push(st);
 
     return 0;
 }
 
-int statemanager_push(struct StateManager *sm, struct State *st) {
+int statemanager_push(struct State *st) {
     if (st->init != NULL) {
         st->init();
     }
 
-    sm->states[sm->states_current] = st;
-    printf("StateManager: New State %d\n", sm->states_current);
-    ++sm->states_current;
+    engine.statemanager.states[engine.statemanager.states_current] = st;
+    printf("StateManager: New State %d\n", engine.statemanager.states_current);
+    ++engine.statemanager.states_current;
 
     return 0;
 }
 
-int statemanager_pop(struct StateManager *sm) {
-    if (!(sm->states_current > 0)) {
+int statemanager_pop(void) {
+    if (!(engine.statemanager.states_current > 0)) {
         printf("StateManager: No States on Stack!\n");
         return 1;
     }
 
-    int state_index = sm->states_current - 1;
+    int state_index = engine.statemanager.states_current - 1;
 
-    if (sm->states[state_index]->destroy != NULL) {
-        sm->states[state_index]->destroy();
+    if (engine.statemanager.states[state_index]->destroy != NULL) {
+        engine.statemanager.states[state_index]->destroy();
     }
 
-    sm->states[state_index] = NULL;
-    --sm->states_current;
-    printf("StateManager: Removed State %d\n", sm->states_current);
+    engine.statemanager.states[state_index] = NULL;
+    --engine.statemanager.states_current;
+    printf("StateManager: Removed State %d\n", engine.statemanager.states_current);
 
     return 0;
 }
 
 
-int statemanager_event(struct StateManager *sm, SDL_Event *event) {
-    if (sm->states_current == 0) {
+int statemanager_event(SDL_Event *event) {
+    if (engine.statemanager.states_current == 0) {
         return 1;
     }
 
-    int state_index = sm->states_current - 1;
+    int state_index = engine.statemanager.states_current - 1;
 
-    if (sm->states[state_index]->event != NULL) {
-        sm->states[state_index]->event(event);
+    if (engine.statemanager.states[state_index]->event != NULL) {
+        engine.statemanager.states[state_index]->event(event);
     }
 
     return 0;
 }
 
-int statemanager_update(struct StateManager *sm) {
-    if (sm->states_current == 0) {
+int statemanager_update(void) {
+    if (engine.statemanager.states_current == 0) {
         return 1;
     }
 
-    int state_index = sm->states_current - 1;
+    int state_index = engine.statemanager.states_current - 1;
 
-    if (sm->states[state_index]->update != NULL) {
-        sm->states[state_index]->update();
+    if (engine.statemanager.states[state_index]->update != NULL) {
+        engine.statemanager.states[state_index]->update();
     }
 
     return 0;
 }
 
-int statemanager_render(struct StateManager *sm) {
-    if (sm->states_current == 0) {
+int statemanager_render(void) {
+    if (engine.statemanager.states_current == 0) {
         return 1;
     }
 
-    int state_index = sm->states_current - 1;
+    int state_index = engine.statemanager.states_current - 1;
 
-    if (sm->states[state_index]->render != NULL) {
-        sm->states[state_index]->render();
+    if (engine.statemanager.states[state_index]->render != NULL) {
+        engine.statemanager.states[state_index]->render();
     }
 
     return 0;

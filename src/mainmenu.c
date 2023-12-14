@@ -24,7 +24,7 @@ int mainmenu_event(SDL_Event *event) {
             game_update,
             game_render
             );
-        statemanager_push(&engine.statemanager, &game);
+        statemanager_push(&game);
     }
     return 0;
 }

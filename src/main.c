@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
 
 
     engine_init();
-    statemanager_push(&engine.statemanager, &mainmenu);
+    statemanager_push(&mainmenu);
     engine_run();
     engine_close();
 

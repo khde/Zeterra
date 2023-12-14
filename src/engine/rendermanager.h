@@ -8,7 +8,7 @@ struct RenderManager {
     SDL_Renderer *renderer;
 };
 
-extern int rendermanager_init(struct RenderManager *rendermanager);
-extern int rendermanager_close(struct RenderManager *rendermanager);
+extern int rendermanager_init(void);
+extern int rendermanager_close(void);
 
 #endif

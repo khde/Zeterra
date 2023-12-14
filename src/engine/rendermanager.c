@@ -1,11 +1,12 @@
 #include <stdio.h>
 
 #include "rendermanager.h"
+#include "engine.h"
 
-int rendermanager_init(struct RenderManager *rendermanager) {
+int rendermanager_init(void) {
     printf("Init RenderManager\n");
 
-    rendermanager->window = SDL_CreateWindow(
+    engine.rendermanager.window = SDL_CreateWindow(
             "Zeterra",
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
@@ -14,13 +15,13 @@ int rendermanager_init(struct RenderManager *rendermanager) {
             SDL_WINDOW_SHOWN
             );
 
-    rendermanager->renderer = SDL_CreateRenderer(
-            rendermanager->window,
+    engine.rendermanager.renderer = SDL_CreateRenderer(
+            engine.rendermanager.window,
             -1,
             SDL_RENDERER_ACCELERATED
             );
 
-    if(rendermanager->window == NULL) {
+    if(engine.rendermanager.window == NULL) {
         printf("SDL: Error: %s\n", SDL_GetError());
         return 1;
     }
@@ -28,10 +29,10 @@ int rendermanager_init(struct RenderManager *rendermanager) {
     return 0;
 }
 
-int rendermanager_close(struct RenderManager *rendermanager) {
+int rendermanager_close(void) {
     printf("RenderManager: Closing\n");
-    SDL_DestroyRenderer(rendermanager->renderer);
-    SDL_DestroyWindow(rendermanager->window);
+    SDL_DestroyRenderer(engine.rendermanager.renderer);
+    SDL_DestroyWindow(engine.rendermanager.window);
 
     return 0;
 }
