@@ -39,7 +39,7 @@ static void world_create_chunk(struct Chunk *chunk, unsigned int cy, unsigned in
 }
 
 void world_render(struct World *world) {
-    SDL_SetRenderDrawColor(engine.rendermanager.renderer, 29, 39, 57, 255);
+    rendermanager_set_color(29, 39, 57, 255);
     for (int y = 0; y < WORLDHEIGHT; y++) {
         for (int x = 0; x < WORLDWIDTH; x++) {
             world_render_chunk(&world->chunks[y][x]);
@@ -51,13 +51,13 @@ static void world_render_chunk(struct Chunk *chunk) {
     SDL_Rect rect;
     rect.h = TILEHEIGHT;
     rect.w = TILEWIDTH;
-    SDL_SetRenderDrawColor(engine.rendermanager.renderer, 0, 39, 57, 255);
+    rendermanager_set_color(0, 39, 57, 255);
 
     for (int y = 0; y < CHUNKHEIGHT; y++) {
-            for (int x = 0; x < CHUNKWIDTH; x++) {
-                rect.x = chunk->tiles[y][x].x * TILEWIDTH;
-                rect.y = chunk->tiles[y][x].y * TILEHEIGHT;
-                SDL_RenderFillRect(engine.rendermanager.renderer, &rect);
-            }
+        for (int x = 0; x < CHUNKWIDTH; x++) {
+            rect.x = chunk->tiles[y][x].x * TILEWIDTH;
+            rect.y = chunk->tiles[y][x].y * TILEHEIGHT;
+            rendermanager_fill_rect(&rect);
         }
+    }
 }

@@ -42,15 +42,15 @@ int game_update(void){
 }
 
 int game_render(void){
-    SDL_SetRenderDrawColor(engine.rendermanager.renderer, 135, 206, 235, 255);
-    SDL_RenderClear(engine.rendermanager.renderer);
+    rendermanager_set_color(135, 206, 235, 255);
+    rendermanager_clear();
 
-    SDL_SetRenderDrawColor(engine.rendermanager.renderer, 35, 06, 35, 255);
-    SDL_RenderFillRect(engine.rendermanager.renderer, &player.r);
+    rendermanager_set_color(35, 06, 35, 255);
+    rendermanager_fill_rect(&player.r);
 
     world_render(&g.world);
 
-    SDL_RenderPresent(engine.rendermanager.renderer);
+    rendermanager_present();
 
     return 0;
 }

@@ -35,9 +35,9 @@ int mainmenu_update(void) {
 }
 
 int mainmenu_render(void) {
-    SDL_SetRenderDrawColor(engine.rendermanager.renderer, 50, 50, 50, 255);
-    SDL_RenderClear(engine.rendermanager.renderer);
-    SDL_RenderPresent(engine.rendermanager.renderer);
+    rendermanager_set_color(50, 50, 50, 255);
+    rendermanager_clear();
+    rendermanager_present();
 
     return 0;
 }

@@ -33,7 +33,6 @@ int engine_run(void) {
             }
             statemanager_event(&event);
         }
-
         statemanager_update();
         statemanager_render();
     }
