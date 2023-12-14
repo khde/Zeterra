@@ -4,37 +4,60 @@
 #include "engine/engine.h"
 #include "world.h"
 
+static void world_create_chunk(struct Chunk *chunk, unsigned int cy, unsigned int cx);
+static void world_render_chunk(struct Chunk *chunk);
+
 struct World *world_create() {
     struct World *world = malloc(sizeof(struct World));
-    
-    for (int y = 0; y < CHUNKDIMENSION; y++) {
-        for (int x = 0; x < CHUNKDIMENSION; x++) {
-            world->chunks.tiles[y][x].x = TILEDIMENSION * x;
-            world->chunks.tiles[y][x].y = TILEDIMENSION * y;
+
+    for (unsigned int y = 0; y < WORLDHEIGHT; y++) {
+        for (unsigned int x = 0; x < WORLDWIDTH; x++) {
+            world_create_chunk(&world->chunks[y][x], y, x);
         }
     }
     return world;
 }
 
-void world_render_world(struct World *world) {
-    SDL_SetRenderDrawColor(engine.rendermanager.renderer, 124, 252, 0, 255);
-    world_render_chunk(&world->chunks);
-
-    // SDL_RenderFillRect(engine.rendermanager.renderer, Rectangle);
+static void world_create_chunk(struct Chunk *chunk, unsigned int cy, unsigned int cx) {
+    chunk->x = cx;
+    chunk->y = cy;
+    for (unsigned int y = 0; y < CHUNKHEIGHT; y++) {
+        for (unsigned int x = 0; x < CHUNKWIDTH; x++) {
+            chunk->tiles[y][x].x = x + (cx * CHUNKWIDTH);
+            chunk->tiles[y][x].y = y + (cy * CHUNKHEIGHT);
+#ifdef DEBUG
+            printf("%d:%d ", chunk->tiles[y][x].x, chunk->tiles[y][x].y);
+#endif
+        }
+#ifdef DEBUG
+        puts("\n");
+#endif
+    }
+#ifdef DEBUG
+    puts("\n");
+#endif
 }
 
-void world_render_chunk(struct Chunk *chunk) {
-    SDL_Rect rect;
-    rect.h = TILEDIMENSION;
-    rect.w = TILEDIMENSION;
+void world_render(struct World *world) {
+    SDL_SetRenderDrawColor(engine.rendermanager.renderer, 29, 39, 57, 255);
+    for (int y = 0; y < WORLDHEIGHT; y++) {
+        for (int x = 0; x < WORLDWIDTH; x++) {
+            world_render_chunk(&world->chunks[y][x]);
+        }
+    }
+}
 
-    for (int y = 0; y < CHUNKDIMENSION; y++) {
-            for (int x = 0; x < CHUNKDIMENSION; x++) {
-                rect.x = chunk->tiles[y][x].x;
-                rect.y = chunk->tiles[y][x].y;
-                SDL_RenderDrawRect(engine.rendermanager.renderer, &rect);
-                rect.x = x * TILEDIMENSION;
+static void world_render_chunk(struct Chunk *chunk) {
+    SDL_Rect rect;
+    rect.h = TILEHEIGHT;
+    rect.w = TILEWIDTH;
+    SDL_SetRenderDrawColor(engine.rendermanager.renderer, 0, 39, 57, 255);
+
+    for (int y = 0; y < CHUNKHEIGHT; y++) {
+            for (int x = 0; x < CHUNKWIDTH; x++) {
+                rect.x = chunk->tiles[y][x].x * TILEWIDTH;
+                rect.y = chunk->tiles[y][x].y * TILEHEIGHT;
+                SDL_RenderFillRect(engine.rendermanager.renderer, &rect);
             }
-            rect.x = 0;
         }
 }

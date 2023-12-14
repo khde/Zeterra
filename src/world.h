@@ -1,8 +1,14 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#define TILEDIMENSION 32
-#define CHUNKDIMENSION 32
+#define TILEHEIGHT 32
+#define TILEWIDTH 32
+
+#define CHUNKHEIGHT 16
+#define CHUNKWIDTH 16
+
+#define WORLDHEIGHT 32
+#define WORLDWIDTH 32
 
 struct Tile {
     unsigned int x;
@@ -10,17 +16,16 @@ struct Tile {
 };
 
 struct Chunk {
-    struct Tile tiles[CHUNKDIMENSION][CHUNKDIMENSION];
+    struct Tile tiles[CHUNKHEIGHT][CHUNKWIDTH];
     unsigned int x;
     unsigned int y;
 };
 
 struct World {
-    struct Chunk chunks;
+    struct Chunk chunks[WORLDHEIGHT][WORLDWIDTH];
 };
 
 extern struct World *world_create();
-extern void world_render_world(struct World *world);
-extern void world_render_chunk(struct Chunk *chunk);
+extern void world_render(struct World *world);
 
 #endif

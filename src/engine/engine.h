@@ -1,6 +1,7 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
+#include "engine_config.h"
 #include "statemanager.h"
 #include "rendermanager.h"
 

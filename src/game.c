@@ -48,7 +48,7 @@ int game_render(void){
     SDL_SetRenderDrawColor(engine.rendermanager.renderer, 35, 06, 35, 255);
     SDL_RenderFillRect(engine.rendermanager.renderer, &player.r);
 
-    world_render_world(&g.world);
+    world_render(&g.world);
 
     SDL_RenderPresent(engine.rendermanager.renderer);
 
