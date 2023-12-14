@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <SDL2/SDL.h>
 
 #include "rendermanager.h"
 #include "engine.h"
@@ -35,4 +36,25 @@ int rendermanager_close(void) {
     SDL_DestroyWindow(engine.rendermanager.window);
 
     return 0;
+}
+
+
+inline void rendermanager_present(void) {
+    SDL_RenderPresent(engine.rendermanager.renderer);
+}
+
+inline int rendermanager_clear(void) {
+    return SDL_RenderClear(engine.rendermanager.renderer);
+}
+
+inline int rendermanager_set_color(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
+    return SDL_SetRenderDrawColor(engine.rendermanager.renderer, r, g, b, a);
+}
+
+inline int rendermanager_draw_rect(SDL_Rect *rect) {
+    return SDL_RenderDrawRect(engine.rendermanager.renderer, rect);
+}
+
+inline int rendermanager_fill_rect(SDL_Rect *rect) {
+    return SDL_RenderFillRect(engine.rendermanager.renderer, rect);
 }
