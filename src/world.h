@@ -2,6 +2,7 @@
 #define WORLD_H
 
 #include "camera.h"
+#include "math.h"
 
 #define TILEHEIGHT 32
 #define TILEWIDTH 32
@@ -13,8 +14,7 @@
 #define WORLDWIDTH 32
 
 struct Tile {
-    unsigned int x;
-    unsigned int y;
+    struct Point pos;
 };
 
 struct Chunk {

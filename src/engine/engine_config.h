@@ -16,7 +16,7 @@
 #define ENGINE_STATEMANAGER_STATES 10
 
 struct EngineConfig {
-    ;
+    int gaming;
 };
 
 #endif

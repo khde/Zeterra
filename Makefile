@@ -4,27 +4,27 @@ CLIBS = -lm -lSDL2 -lSDL2main
 
 SRC = $(wildcard src/*.c) $(wildcard src/*/*.c)
 OBJ = $(SRC:%.c=%.o)
-OBJDIR = build/
+: OBJDIR = build/
 BIN = zeterra
 
 .PHONY: all run clean
 
-all: $(OBJDIR) $(BIN)
+all: $(BIN)
+: all: $(OBJDIR) $(BIN)
 
 run: all
 	./$(BIN)
 
-$(OBJDIR):
-	mkdir $(OBJDIR)
+: $(OBJDIR):
+	: mkdir $(OBJDIR)
 
 $(BIN): $(OBJ)
 	mkdir -pv build/
 	$(CC) $(OBJ) -o $(BIN) $(CLIBS)
 
 %.o: %.c
-	@echo "test"
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -rfv $(OBJ) $(BIN)
-	rm -rfv $(OBJDIR)
+	: rm -rfv $(OBJDIR)

@@ -3,6 +3,7 @@
 
 #include "engine/engine.h"
 #include "world.h"
+#include "math.h"
 
 static void world_create_chunk(struct Chunk *chunk, unsigned int cy, unsigned int cx);
 static void world_render_chunk(struct Chunk *chunk, struct Camera *camera);
@@ -23,10 +24,10 @@ static void world_create_chunk(struct Chunk *chunk, unsigned int cy, unsigned in
     chunk->y = cy;
     for (unsigned int y = 0; y < CHUNKHEIGHT; y++) {
         for (unsigned int x = 0; x < CHUNKWIDTH; x++) {
-            chunk->tiles[y][x].x = x + (cx * CHUNKWIDTH);
-            chunk->tiles[y][x].y = y + (cy * CHUNKHEIGHT);
+            chunk->tiles[y][x].pos.x = x + (cx * CHUNKWIDTH);
+            chunk->tiles[y][x].pos.y = y + (cy * CHUNKHEIGHT);
 #ifdef DEBUG
-            printf("%d:%d ", chunk->tiles[y][x].x, chunk->tiles[y][x].y);
+            printf("%d:%d ", chunk->tiles[y][x].pos.x, chunk->tiles[y][x].pos.y);
 #endif
         }
 #ifdef DEBUG
@@ -55,8 +56,8 @@ static void world_render_chunk(struct Chunk *chunk, struct Camera *camera) {
 
     for (int y = 0; y < CHUNKHEIGHT; y++) {
         for (int x = 0; x < CHUNKWIDTH; x++) {
-            rect.x = (chunk->tiles[y][x].x * TILEWIDTH) + camera->x;
-            rect.y = (chunk->tiles[y][x].y * TILEHEIGHT) + camera->y;
+            rect.x = (chunk->tiles[y][x].pos.x * TILEWIDTH) + camera->pos.x;
+            rect.y = (chunk->tiles[y][x].pos.y * TILEHEIGHT) + camera->pos.y;
             rendermanager_draw_rect(&rect);
         }
     }

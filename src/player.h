@@ -3,9 +3,10 @@
 
 #include <SDL2/SDL.h>
 
+#include "math.h"
+
 struct Player {
-    int x;
-    int y;
+    struct Point pos;
     SDL_Rect r;
 };
 

@@ -8,21 +8,20 @@
 
 struct State game;
 struct Game g;
-struct Player player;
 
 int game_init(void) {
     printf("Game Loading...\n");
-    player.x = 200;
-    player.y = 300;
-    player.r.h = 80;
-    player.r.w = 20;
-    player.r.x = player.x;  // Bruh
-    player.r.y = player.y;
+    g.player.pos.x = 200;
+    g.player.pos.y = 300;
+    g.player.r.h = 80;
+    g.player.r.w = 20;
+    g.player.r.x = g.player.pos.x;  // Bruh
+    g.player.r.y = g.player.pos.y;
 
     g.world = *world_create();
 
-    g.camera.x = 0;
-    g.camera.y = 0;
+    camera_init(&g.camera);
+    camera_set_follow(&g.camera, &g.player.pos);
 
     return 0;
 }
@@ -39,28 +38,27 @@ int game_event(SDL_Event *event){
                 statemanager_pop();
                 break;
             case SDLK_w:
-                g.camera.y += 50;
+                g.player.pos.y += 50;
                 break;
             case SDLK_a:
-                g.camera.x += 50;
+                g.player.pos.x += 50;
                 break;
             case SDLK_s:
-                g.camera.y -= 50;
+                g.player.pos.y -= 50;
                 break;
             case SDLK_d:
-                g.camera.x -= 50;
+                g.player.pos.x -= 50;
                 break;
             default:
                 // Okay
                 break; 
         }
     }
-
     return 0;
 }
 
 int game_update(void){
-
+    camera_update(&g.camera);
     return 0;
 }
 
@@ -69,7 +67,10 @@ int game_render(void){
     rendermanager_clear();
 
     rendermanager_set_color(35, 06, 35, 255);
-    rendermanager_fill_rect(&player.r);
+    // Temporary
+    g.player.r.x = g.player.pos.x - g.camera.pos.x + 400;
+    g.player.r.y = g.player.pos.y - g.camera.pos.y + 300;
+    rendermanager_fill_rect(&g.player.r);
 
     world_render(&g.world, &g.camera);
 
