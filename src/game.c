@@ -21,6 +21,9 @@ int game_init(void) {
 
     g.world = *world_create();
 
+    g.camera.x = 0;
+    g.camera.y = 0;
+
     return 0;
 }
 
@@ -30,9 +33,29 @@ int game_destroy(void){
 }
 
 int game_event(SDL_Event *event){
-    if (event->key.keysym.sym == SDLK_ESCAPE) {
-        statemanager_pop();
+    if (event->type == SDL_KEYDOWN) {
+        switch(event->key.keysym.sym) {
+            case SDLK_ESCAPE:
+                statemanager_pop();
+                break;
+            case SDLK_w:
+                g.camera.y += 50;
+                break;
+            case SDLK_a:
+                g.camera.x += 50;
+                break;
+            case SDLK_s:
+                g.camera.y -= 50;
+                break;
+            case SDLK_d:
+                g.camera.x -= 50;
+                break;
+            default:
+                // Okay
+                break; 
+        }
     }
+
     return 0;
 }
 
@@ -48,7 +71,7 @@ int game_render(void){
     rendermanager_set_color(35, 06, 35, 255);
     rendermanager_fill_rect(&player.r);
 
-    world_render(&g.world);
+    world_render(&g.world, &g.camera);
 
     rendermanager_present();
 

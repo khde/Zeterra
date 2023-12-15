@@ -5,7 +5,7 @@
 #include "world.h"
 
 static void world_create_chunk(struct Chunk *chunk, unsigned int cy, unsigned int cx);
-static void world_render_chunk(struct Chunk *chunk);
+static void world_render_chunk(struct Chunk *chunk, struct Camera *camera);
 
 struct World *world_create() {
     struct World *world = malloc(sizeof(struct World));
@@ -38,16 +38,16 @@ static void world_create_chunk(struct Chunk *chunk, unsigned int cy, unsigned in
 #endif
 }
 
-void world_render(struct World *world) {
+void world_render(struct World *world, struct Camera *camera) {
     rendermanager_set_color(29, 39, 57, 255);
     for (int y = 0; y < WORLDHEIGHT; y++) {
         for (int x = 0; x < WORLDWIDTH; x++) {
-            world_render_chunk(&world->chunks[y][x]);
+            world_render_chunk(&world->chunks[y][x], camera);
         }
     }
 }
 
-static void world_render_chunk(struct Chunk *chunk) {
+static void world_render_chunk(struct Chunk *chunk, struct Camera *camera) {
     SDL_Rect rect;
     rect.h = TILEHEIGHT;
     rect.w = TILEWIDTH;
@@ -55,9 +55,9 @@ static void world_render_chunk(struct Chunk *chunk) {
 
     for (int y = 0; y < CHUNKHEIGHT; y++) {
         for (int x = 0; x < CHUNKWIDTH; x++) {
-            rect.x = chunk->tiles[y][x].x * TILEWIDTH;
-            rect.y = chunk->tiles[y][x].y * TILEHEIGHT;
-            rendermanager_fill_rect(&rect);
+            rect.x = (chunk->tiles[y][x].x * TILEWIDTH) + camera->x;
+            rect.y = (chunk->tiles[y][x].y * TILEHEIGHT) + camera->y;
+            rendermanager_draw_rect(&rect);
         }
     }
 }

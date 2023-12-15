@@ -5,11 +5,15 @@
 
 #include "engine/engine.h"
 #include "world.h"
+#include "player.h"
+#include "camera.h"
 
 extern struct State game;
 
 struct Game {
     struct World world;
+    struct Player player;
+    struct Camera camera;
 };
 
 extern int game_init(void);

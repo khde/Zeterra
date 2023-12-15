@@ -1,6 +1,8 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#include "camera.h"
+
 #define TILEHEIGHT 32
 #define TILEWIDTH 32
 
@@ -26,6 +28,6 @@ struct World {
 };
 
 extern struct World *world_create();
-extern void world_render(struct World *world);
+extern void world_render(struct World *world, struct Camera *camera);
 
 #endif
